@@ -2,22 +2,19 @@ import sqlite3
 import os
 from sqlite3 import Error
 
+# Used to create connection with Database file 
 def create_connection(Education):
 	conn = None
 	try:
 		conn = sqlite3.connect(Education)
 	except Error as e:
 		print(e)
-
 	return conn
 
-# col_name
+# Used to Select the Column Names from table 
 def select_task(conn,table_name,col_name,where_clause):
 	cur = conn.cursor()
-	#new string
-	str_query = ""
-
-	str_query = str_query + "SELECT "
+	str_query = "SELECT "
 	print("After adding select keyword ",str_query)
 
 	#string for all the relevent columns of the table:
@@ -55,22 +52,17 @@ def delete_task(conn,table_name,where_clause):
 		str_query = str_query + "DELETE FROM " + table_name + " WHERE "+ where_clause
 	else:
 		str_query = str_query + "DELETE FROM " + table_name
-
-	str_query="Select * FROM "+table_name
+		
 	print( " Now Delete Query is ",str_query)
-
 	cur.execute(str_query)
-
 	rows = cur.fetchall()
-
 	for row in rows:
 		print(row)
 
 # update tb set c1 = c1_val , c2 = c2_val WHERE c_name = c_name_value
 def update_task(conn,table_name,col_name,data,where_clause):
 	cur = conn.cursor()
-	str_query = ""
-	str_query = str_query + "update "+ table_name+ " set "
+	str_query = "update "+ table_name+ " set "
 
 	for i in range(len(col_name)):
 		str_query = str_query + col_name[i] + " = '"+ data[i] + "'"
@@ -79,7 +71,8 @@ def update_task(conn,table_name,col_name,data,where_clause):
 
 	if where_clause != "":
 		str_query = str_query + " WHERE "+ where_clause
-#str = "update Subject set branch='computer science' where subject_id = 3"
+		
+	#str = "update Subject set branch='computer science' where subject_id = 3"
 	print( " Now Update Query is ",str_query)
 
 	cur.execute(str_query)
